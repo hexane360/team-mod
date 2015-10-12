@@ -1,6 +1,7 @@
 package hexane.teammod;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 public class MyTeamCommand implements ICommand
 {
@@ -99,7 +99,11 @@ public class MyTeamCommand implements ICommand
 			World world = MinecraftServer.getServer().getEntityWorld();
 			Scoreboard scoreboard = world.getScoreboard();
 			ScorePlayerTeam dataTeam = getDataTeam(scoreboard);
-			
+			String commandString = "/myteam";
+			for (String arg : args) {
+				commandString += " " + arg;
+			}
+			System.out.println("Sender " + sender.getCommandSenderName() + " used command " + commandString);
 			ScorePlayerTeam team = scoreboard.getPlayersTeam(player.getCommandSenderName());
 			if(args.length == 0) {
 				if (team == null) { throw new NoTeamException(); }
@@ -285,17 +289,19 @@ public class MyTeamCommand implements ICommand
 		String suffix = dataTeam.getColorSuffix();
 		if (suffix == null) { suffix = ""; }
 		String teamColor = getTeamColor(team);
-		System.out.println("got prefix format " + prefix);
+		System.out.println("Got prefix format " + prefix);
 		prefix = prefix.replaceAll("<t>", teamName).replaceAll("<c>", teamColor);
-		System.out.println("Formatted to " + teamColor + "\u00A7r" + prefix);
-		team.setNamePrefix(teamColor + "\u00A7r" + prefix);
-		
 		suffix = suffix.replaceAll("<t>", teamName).replaceAll("<c>", teamColor);
 		for (Map.Entry<String, String> colorPair :colorMap.entrySet()) {
 			String key = colorPair.getKey();
 			String value = colorPair.getValue();
+			prefix = prefix.replaceAll("<" + key + ">" , value);
 			suffix = suffix.replaceAll("<" + key + ">" , value);
 		}
+		System.out.println("Formatted to " + teamColor + "\u00A7r" + prefix);
+		System.out.println("Got suffix format " + suffix);
+		System.out.println("Formatted to " + suffix);
+		team.setNamePrefix(teamColor + "\u00A7r" + prefix);
 		team.setNameSuffix(suffix);
 	}
 	private String getTeamColor(ScorePlayerTeam team) {
