@@ -1,10 +1,52 @@
-[19:28:19] [main/INFO]: Setting user: Player126
-[19:28:20] [Client thread/INFO]: LWJGL Version: 2.9.1
-[19:28:28] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Server team commands
-[19:28:29] [Sound Library Loader/INFO]: Sound engine started
-[19:28:33] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[19:28:33] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[19:28:33] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Server team commands
-[19:28:34] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[19:28:34] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[19:28:34] [Sound Library Loader/INFO]: Sound engine started
+[20:12:23] [main/INFO]: Setting user: Player867
+[20:12:24] [Client thread/INFO]: LWJGL Version: 2.9.1
+[20:12:31] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Server team commands
+[20:12:32] [Sound Library Loader/INFO]: Sound engine started
+[20:12:34] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[20:12:34] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[20:12:35] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Server team commands
+[20:12:35] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[20:12:35] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[20:12:36] [Sound Library Loader/INFO]: Sound engine started
+[20:13:13] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[20:13:13] [Server thread/INFO]: Generating keypair
+[20:13:14] [Server thread/INFO]: Preparing start region for level 0
+[20:13:15] [Server thread/INFO]: Preparing spawn area: 76%
+[20:13:15] [Server thread/INFO]: Changing view distance to 12, from 10
+[20:13:16] [Server thread/INFO]: Player867[local:E:ac089687] logged in with entity id 339 at (242.7929712692175, 69.0, -36.30000001192093)
+[20:13:16] [Server thread/INFO]: Player867 joined the game
+[20:13:19] [Server thread/INFO]: Sender Player867 used command /myteam
+[20:13:19] [Client thread/INFO]: [CHAT] You do not belong to a team.
+[20:13:19] [Client thread/INFO]: [CHAT] Make a team with /myteam create.
+[20:13:26] [Server thread/INFO]: Sender Player867 used command /myteam create blue
+[20:13:26] [Server thread/INFO]: Got prefix format 
+[20:13:26] [Server thread/INFO]: Formatted to §r§r
+[20:13:26] [Server thread/INFO]: Got suffix format 
+[20:13:26] [Server thread/INFO]: Formatted to 
+[20:13:26] [Client thread/INFO]: [CHAT] Created new team blue
+[20:13:31] [Server thread/INFO]: Sender Player867 used command /myteam color
+[20:13:31] [Client thread/INFO]: [CHAT] Team color: null
+[20:13:36] [Server thread/INFO]: Sender Player867 used command /myteam color blue
+[20:13:36] [Server thread/INFO]: Got prefix format 
+[20:13:36] [Server thread/INFO]: Formatted to §9§r
+[20:13:36] [Server thread/INFO]: Got suffix format 
+[20:13:36] [Server thread/INFO]: Formatted to 
+[20:13:36] [Client thread/INFO]: [CHAT] Set team color to blue
+[20:13:38] [Server thread/INFO]: <§9§rPlayer867> hi
+[20:13:38] [Client thread/INFO]: [CHAT] <§9§rPlayer867> hi
+[20:13:46] [Client thread/INFO]: [CHAT] Set to <c>
+[20:13:48] [Server thread/INFO]: <§9§r§9Player867> hi
+[20:13:48] [Client thread/INFO]: [CHAT] <§9§r§9Player867> hi
+[20:14:00] [Server thread/INFO]: Saving and pausing game...
+[20:14:00] [Server thread/INFO]: Saving chunks for level 'ground'/Overworld
+[20:14:00] [Server thread/INFO]: Saving chunks for level 'ground'/Nether
+[20:14:00] [Server thread/INFO]: Saving chunks for level 'ground'/The End
+[20:14:01] [Client thread/INFO]: Stopping!
+[20:14:02] [Server thread/INFO]: Stopping server
+[20:14:02] [Server thread/INFO]: Saving players
+[20:14:02] [Server thread/INFO]: Saving worlds
+[20:14:02] [Server thread/INFO]: Saving chunks for level 'ground'/Overworld
+[20:14:02] [Server thread/INFO]: Saving chunks for level 'ground'/Nether
+[20:14:02] [Server thread/INFO]: Saving chunks for level 'ground'/The End
+[20:14:02] [Client Shutdown Thread/INFO]: Stopping server
+[20:14:02] [Client Shutdown Thread/INFO]: Saving players

@@ -14,6 +14,8 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
@@ -96,14 +98,15 @@ public class MyTeamCommand implements ICommand
 	{
 		try {
 			EntityPlayer player = (EntityPlayer)sender;
-			World world = MinecraftServer.getServer().getEntityWorld();
+			MinecraftServer server = MinecraftServer.getServer();
+			World world = server.getEntityWorld();
 			Scoreboard scoreboard = world.getScoreboard();
 			ScorePlayerTeam dataTeam = getDataTeam(scoreboard);
 			String commandString = "/myteam";
 			for (String arg : args) {
 				commandString += " " + arg;
 			}
-			System.out.println("Sender " + sender.getCommandSenderName() + " used command " + commandString);
+			sendChatToConsole(server, "Sender " + sender.getCommandSenderName() + " used command " + commandString);
 			ScorePlayerTeam team = scoreboard.getPlayersTeam(player.getCommandSenderName());
 			if(args.length == 0) {
 				if (team == null) { throw new NoTeamException(); }
@@ -145,20 +148,18 @@ public class MyTeamCommand implements ICommand
 
 			if ("create".equalsIgnoreCase(args[0])) { //myteam create <team> [playerlist]
 				if (team != null) {
-					sendChat(sender, "You already belong to a team. Leave or disband before creating a new one.");
+					sendErrorChat(sender, "You already belong to a team. Leave or disband before creating a new one.");
 					throw new InvalidArgumentsException();
 				}
 				String newTeamName;
 				try { newTeamName = args[1]; }
 				catch (ArrayIndexOutOfBoundsException e) {
-					sendChat(sender, new String[] {
-						"Missing team name.",
-						"Correct syntax: /myteam create <team> [player1] [player2] ..."
-					});
+					sendErrorChat(sender, "Missing team name.");
+					sendErrorChat(sender, "Correct syntax: /myteam create <team> [player1] [player2] ...");
 					throw new InvalidArgumentsException();
 				}
 				if (newTeamName == dataTeamKey) {
-					sendChat(sender, "Invalid team name. Please choose a different name");
+					sendErrorChat(sender, "Invalid team name. Please choose a different name");
 					throw new InvalidArgumentsException();
 				}
 				try { team = scoreboard.createTeam(newTeamName); }
@@ -169,7 +170,7 @@ public class MyTeamCommand implements ICommand
 				sendChat(sender, "Created new team " + newTeamName);
 				team.setNamePrefix("\u00A7r\u00A7r");
 				scoreboard.func_151392_a(sender.getCommandSenderName(), newTeamName);
-				updatePrefix(dataTeam, team);
+				updatePrefix(server, dataTeam, team);
 				if (args.length > 2) {
 					for (EntityPlayer playerToAdd : parsePlayerList(world, (String[])Arrays.copyOfRange(args, 2, args.length))) {
 						scoreboard.func_151392_a(playerToAdd.getCommandSenderName(), newTeamName);
@@ -190,10 +191,8 @@ public class MyTeamCommand implements ICommand
 					}
 				}
 				else {
-					sendChat(sender, new String[] {
-						"Missing player to add",
-						"Correct syntax: /myteam add <player1> [player2] ..."
-					});
+					sendErrorChat(sender, "Missing player to add");
+					sendErrorChat(sender, "Correct syntax: /myteam add <player1> [player2] ...");
 					throw new InvalidArgumentsException();
 				}
 				return;
@@ -206,15 +205,13 @@ public class MyTeamCommand implements ICommand
 							sendChat(sender, "Removed player " + playerToRemove + " from your team");
 						}
 						else {
-							sendChat(sender, "Cannot remove. Player " + playerToRemove + " is not on your team.");
+							sendErrorChat(sender, "Cannot remove. Player " + playerToRemove + " is not on your team.");
 						}
 					}
 				}
 				else {
-					sendChat(sender, new String[] {
-						"Missing player to remove",
-						"Correct syntax: /myteam remove <player1> [player2] ..."
-					});
+					sendErrorChat(sender, "Missing player to remove");
+					sendErrorChat(sender, "Correct syntax: /myteam remove <player1> [player2] ...");
 					throw new InvalidArgumentsException();
 				}
 				return;
@@ -236,16 +233,14 @@ public class MyTeamCommand implements ICommand
 						sendChat(sender, "Set team color to " + args[1]);
 						
 						setTeamColor(team, colorCode);
-						updatePrefix(dataTeam, team);
+						updatePrefix(server, dataTeam, team);
 					}
 					else {
-						sendChat(sender, "Unknown color " + args[1]);
-						sendChat(sender, new String[] {
-								"Unknown color " + args[1],
+						sendErrorChat(sender, "Unknown color " + args[1]);
+						sendChat(sender,
 								"Acceptable colors: \u00A70Black, \u00A71Dark Blue, \u00A72Dark Green, \u00A73Dark Aqua, \u00A74Dark Red, " +
 								"\u00A75Dark Purple, \u00A76Gold, \u00A77Gray, \u00A78Dark Gray, \u00A79Blue, \u00A7aGreen, \u00A7bAqua, \u00A7cRed, \u00A7dLight Purple, " +
-								"\u00A7eYellow, \u00A7fWhite"
-						});
+								"\u00A7eYellow, \u00A7fWhite");
 						throw new InvalidArgumentsException();
 					}
 				}
@@ -257,31 +252,28 @@ public class MyTeamCommand implements ICommand
 					}
 					else
 					{
-						sendChat(sender, new String[] {
-								"Unknown team color"
-								});
+						sendErrorChat(sender, "Could not parse team color");
+						sendChatToConsole(server, "Error processing command. Team name " + teamName);
 					}
 				}
 				return;
 			}
-			sendChat(sender, "Unknown argument \"" + args[0] + "\"");
+			sendErrorChat(sender, "Unknown argument \"" + args[0] + "\"");
 			throw new InvalidArgumentsException();
 		}
 		catch (NoTeamException e) {
-			sendChat(sender, new String[] {
-					"You do not belong to a team.",
-					"Make a team with /myteam create."
-			});
+			sendErrorChat(sender, "You do not belong to a team.");
+			sendErrorChat(sender, "Make a team with /myteam create.");
 		}
 		catch (NoPlayerException e) {
-			sendChat(sender, "Could not find player " + e.getMessage());
+			sendErrorChat(sender, "Could not find player " + e.getMessage());
 		}
 		catch (InvalidArgumentsException e) {
 			return;
 		}
 	}
 
-	private void updatePrefix(ScorePlayerTeam dataTeam, ScorePlayerTeam team) {
+	private void updatePrefix(MinecraftServer server, ScorePlayerTeam dataTeam, ScorePlayerTeam team) {
 		String teamName = team.getRegisteredName();
 		
 		String prefix = dataTeam.getColorPrefix();
@@ -289,7 +281,7 @@ public class MyTeamCommand implements ICommand
 		String suffix = dataTeam.getColorSuffix();
 		if (suffix == null) { suffix = ""; }
 		String teamColor = getTeamColor(team);
-		System.out.println("Got prefix format " + prefix);
+		sendChatToConsole(server, "Got prefix format " + prefix);
 		prefix = prefix.replaceAll("<t>", teamName).replaceAll("<c>", teamColor);
 		suffix = suffix.replaceAll("<t>", teamName).replaceAll("<c>", teamColor);
 		for (Map.Entry<String, String> colorPair :colorMap.entrySet()) {
@@ -298,14 +290,13 @@ public class MyTeamCommand implements ICommand
 			prefix = prefix.replaceAll("<" + key + ">" , value);
 			suffix = suffix.replaceAll("<" + key + ">" , value);
 		}
-		System.out.println("Formatted to " + teamColor + "\u00A7r" + prefix);
-		System.out.println("Got suffix format " + suffix);
-		System.out.println("Formatted to " + suffix);
+		sendChatToConsole(server, "Formatted to " + teamColor + "\u00A7r" + prefix);
+		sendChatToConsole(server, "Got suffix format " + suffix);
+		sendChatToConsole(server, "Formatted to " + suffix);
 		team.setNamePrefix(teamColor + "\u00A7r" + prefix);
 		team.setNameSuffix(suffix);
 	}
 	private String getTeamColor(ScorePlayerTeam team) {
-		System.out.println("Got color prefix " + team.getColorPrefix().substring(0, 2));
 		return team.getColorPrefix().substring(0,2);
 	}
 	private void setTeamColor(ScorePlayerTeam team, String newTeamColor) {
@@ -321,7 +312,6 @@ public class MyTeamCommand implements ICommand
 		catch (StringIndexOutOfBoundsException e) {
 			prefixSplit = "";
 		}
-		System.out.println("Set color prefix to " + newTeamColor + prefixSplit);
 		team.setNamePrefix(newTeamColor + prefixSplit);
 	}
 	private ScorePlayerTeam getDataTeam(Scoreboard scoreboard) {
@@ -339,6 +329,17 @@ public class MyTeamCommand implements ICommand
 		return dataTeam;
 	}
 	
+	private void sendChatToConsole(MinecraftServer server, String line) {
+		IChatComponent component = new ChatComponentText(line);
+		server.addChatMessage(component);
+	}
+	private void sendErrorChat(ICommandSender sender, String line) {
+		IChatComponent component = new ChatComponentText(line);
+		ChatStyle chatStyle = new ChatStyle();
+		chatStyle.setColor(EnumChatFormatting.RED);
+		component.setChatStyle(chatStyle);
+		sender.addChatMessage(component);
+	}
 	private void sendChat(ICommandSender sender, String line)
 	{
 		IChatComponent component = new ChatComponentText(line);
