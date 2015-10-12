@@ -52,9 +52,9 @@ public class MyTeamCommand implements ICommand
    private static final Map<String, String> colorDisplayMap;
    static
    {
-	   colorDisplayMap = new HashMap<String, String>();
-	   colorDisplayMap.put("\u00A70", "\u00A70black");
-	   colorDisplayMap.put("\u00A71","\u00A71dark_blue");
+   	 colorDisplayMap = new HashMap<String, String>();
+   	 colorDisplayMap.put("\u00A70", "\u00A70black");
+   	 colorDisplayMap.put("\u00A71","\u00A71dark_blue");
        colorDisplayMap.put("\u00A72","\u00A72dark_green");
        colorDisplayMap.put("\u00A73", "\u00A73dark_aqua");
        colorDisplayMap.put("\u00A74", "\u00A74dark_red");
@@ -71,6 +71,7 @@ public class MyTeamCommand implements ICommand
        colorDisplayMap.put("\u00A7f", "\u00A7fwhite");
        colorDisplayMap.put("\u00A7r", "\u00A7rNone");
        colorDisplayMap.put("", "\u00A7rNone");
+       colorDisplayMap.put(null, "\u00A7rNone");
    }
    
 	
@@ -231,7 +232,7 @@ public class MyTeamCommand implements ICommand
 					if (colorMap.containsKey(args[1]))
 					{
 						String colorCode = colorMap.get(args[1]);
-						sendChat(sender, "Set team color to " + colorDisplayMap.get(colorCode));
+						sendChat(sender, "Set team color to " + args[1]);
 						
 						setTeamColor(team, colorCode);
 						updatePrefix(server, dataTeam, team);
@@ -248,7 +249,7 @@ public class MyTeamCommand implements ICommand
 				else {
 					String colorCode = getTeamColor(team);
 					if (colorDisplayMap.containsKey(colorCode)) {
-						String displayName = colorDisplayMap.get(colorCode);
+						String displayName = colorDisplayMap.get(team.getColorPrefix());
 						sendChat(sender, "Team color: " + displayName);
 					}
 					else

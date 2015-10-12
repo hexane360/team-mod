@@ -71,6 +71,7 @@ public class MyTeamCommand implements ICommand
        colorDisplayMap.put("\u00A7f", "\u00A7fwhite");
        colorDisplayMap.put("\u00A7r", "\u00A7rNone");
        colorDisplayMap.put("", "\u00A7rNone");
+       colorDisplayMap.put(null, "\u00A7rNone");
    }
    
 	
