@@ -1,14 +1,14 @@
 [
 {
   "modid": "teammod",
-  "name": "Simple Team Mod",
-  "description": "Simple self-service team command with dynamic prefixes",
+  "name": "Team Mod",
+  "description": "Empowers users to self-manage (purely cosmetic) factions",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["hexane360"],
-  "credits": "hexane360",
+  "authorList": ["hexane"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
