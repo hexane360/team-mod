@@ -10,10 +10,10 @@ public class TeamMod {
 	public final static String ID = "teammod";
 	public final static String NAME = "Server team commands";
 	public final static String VERSION = "2.0.0";
-	
+
 	@Instance(ID)
 	public static TeamMod instance;
-	
+
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
 		event.registerServerCommand(new MyTeamCommand());
